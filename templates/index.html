@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow p-4">
+    <h4 class="mb-3">Search Books You Like</h4>
+
+    <form method="POST">
+
+        <!-- Floating tag container -->
+        <div class="mb-3">
+            <div id="tagContainer"
+                 class="form-control d-flex flex-wrap align-items-center"
+                 style="min-height:50px; cursor:text;">
+
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Start typing book title..."
+                       style="border:none; outline:none; flex:1; min-width:200px;">
+            </div>
+
+            <!-- Suggestions -->
+            <div id="suggestions"
+                 class="list-group position-absolute w-100 mt-1"
+                 style="z-index:1000;"></div>
+        </div>
+
+        <!-- Hidden ISBN storage -->
+        <input type="hidden" name="isbns" id="selectedIsbns">
+
+        <button type="submit" class="btn btn-primary">
+            Get Recommendations
+        </button>
+    </form>
+</div>
+
+
+{% if recommendations %}
+<div class="mt-5">
+    <h4 class="mb-3">Recommended Books</h4>
+
+    <div class="row">
+        {% for book in recommendations %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ book['Title'] }}
+                    </h5>
+                    <p class="card-text text-muted">
+                        {{ book['Author'] }}
+                    </p>
+                    <small class="text-secondary">
+                        ISBN: {{ book['ISBN'] }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+
+{% endblock %}
